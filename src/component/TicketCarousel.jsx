@@ -66,6 +66,7 @@ class TicketCarousel extends React.Component {
 		super();
 		this.state = {
 			playSpeed: 5000,
+			autoPlay:true,
 			datas: new Array()
 		};
 	}
@@ -88,7 +89,6 @@ class TicketCarousel extends React.Component {
 						"customer": val.customer,
 					}
 				});
-				console.log(JSON.stringify(json));
 				this.setState({
 					datas: json
 				});
@@ -102,14 +102,14 @@ class TicketCarousel extends React.Component {
 			let dataSub = this.state.datas.slice(page * rows, (page + 1) * rows);
 			let table = _.map(dataSub, (val) => {
 				let columns = _.map(_.keys(val), (key) => {
-					return {
-						"title": key,
-						"dataIndex": key,
-						"key": key,
-						"width": 100
-					}
-				});
-				let dataSource = new Array();
+						return {
+							"title": key,
+							"dataIndex": key,
+							"key": key,
+							"width": 100
+						}
+					}),
+					dataSource = new Array();
 				dataSource.push(val);
 				return (
 					<div>
@@ -130,7 +130,7 @@ class TicketCarousel extends React.Component {
 			);
 		});
 		return (
-			<Carousel autoplaySpeed={this.state.playSpeed}  effect="fade">
+			<Carousel autoplaySpeed={this.state.playSpeed} autoplay={this.state.autoPlay}  effect="fade">
 				{tables}
 			</Carousel>
 		)
