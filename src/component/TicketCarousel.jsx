@@ -88,6 +88,7 @@ class TicketCarousel extends React.Component {
 						"customer": val.customer,
 					}
 				});
+				console.log(JSON.stringify(json));
 				this.setState({
 					datas: json
 				});
@@ -99,30 +100,37 @@ class TicketCarousel extends React.Component {
 			pages = Math.ceil(this.state.datas.length / rows);
 		let tables = _.map(_.range(pages), (page) => {
 			let dataSub = this.state.datas.slice(page * rows, (page + 1) * rows);
-			// let dataSub = _.difference(_.rest(this.state.datas, page * rows), _.rest(this.state.datas, (page + 1) * rows));
-			// console.log(JSON.stringify(dataSub));
-			if (dataSub.length) {
-				let columns = _.map(_.keys(dataSub[0]), (key) => {
+			let table = _.map(dataSub, (val) => {
+				let columns = _.map(_.keys(val), (key) => {
 					return {
 						"title": key,
 						"dataIndex": key,
-						"key": key
+						"key": key,
+						"width": 100
 					}
 				});
-				let dataSource = dataSub;
+				let dataSource = new Array();
+				dataSource.push(val);
 				return (
 					<div>
-					    <Table 
+						<Table
+							rowKey={record => record.key}
 					    	columns={columns}
+					    	className={val.state}
 					    	dataSource={dataSource}
 					    	showHeader={false}
 					    	pagination={false}/>
 					</div>
-				)
-			}
+				);
+			});
+			return (
+				<div>
+					{table}
+				</div>
+			);
 		});
 		return (
-			<Carousel autoplaySpeed={this.state.playSpeed} autoplay="true" effect="fade">
+			<Carousel autoplaySpeed={this.state.playSpeed}  effect="fade">
 				{tables}
 			</Carousel>
 		)
