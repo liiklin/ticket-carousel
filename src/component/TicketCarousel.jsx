@@ -73,7 +73,7 @@ class TicketCarousel extends React.Component {
 	}
 	componentDidMount() {
 		this.fetchData();
-		if (startLoop) {
+		if (this.state.startLoop) {
 			this.timer = setInterval(function() {
 				this.fetchData();
 			}.bind(this), 30000);
@@ -98,7 +98,6 @@ class TicketCarousel extends React.Component {
 						"customer": val.customer,
 					}
 				});
-				console.log(JSON.stringify(json))
 				this.setState({
 					datas: json
 				});
