@@ -66,11 +66,20 @@ class TicketCarousel extends React.Component {
 		super();
 		this.state = {
 			playSpeed: 5000,
-			autoPlay:true,
+			autoPlay: true,
+			startLoop: true,
 			datas: new Array()
 		};
 	}
 	componentDidMount() {
+		this.fetchData();
+		if (startLoop) {
+			this.timer = setInterval(function() {
+				this.fetchData();
+			}.bind(this), 30000);
+		}
+	}
+	fetchData() {
 		fetch(baseUrl)
 			.then(response => response.json())
 			.then((json) => {
@@ -89,6 +98,7 @@ class TicketCarousel extends React.Component {
 						"customer": val.customer,
 					}
 				});
+				console.log(JSON.stringify(json))
 				this.setState({
 					datas: json
 				});
